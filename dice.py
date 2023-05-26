@@ -51,6 +51,9 @@ class Dice:
                 if roll <= 1:
                     msg = msg + "[MISSED]"
                     roll = 0
+                elif roll >= 20:
+                    msg = msg + "[CRITICAL HIT]"
+
 
             roll_results.append(roll)
 
