@@ -289,7 +289,7 @@ class Character:
 
     def set_cover_bonus(self, bonus):
         """Setzt den Wert für Deckungsbonus."""
-        if bonus > 0:
+        if bonus >= 0:
             self.cover_bonus = bonus
             self.attackable = True
         elif bonus == -1:

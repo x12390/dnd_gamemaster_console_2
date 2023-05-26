@@ -2,15 +2,7 @@ from creatures.creature_factory import CreatureFactory
 from dice import Dice
 from menue import cls, select_menu, cover_selection, select_menu_creatureObject
 
-def cover_bonus(covertype):
-    #Ziel mit Deckung erhaelt Bonus auf RK und Geschicklichkeit.
-    if covertype == "big":
-        cover_bonus = 5
-    elif covertype == "half":
-        cover_bonus = 2
-    else:
-        cover_bonus = 0
-    return cover_bonus
+
 
 def defense(targetObj):
     while True:
@@ -103,6 +95,7 @@ def combat(group):
         elif choice == 5:
             # Deckung wechseln
             cover_bonus = cover_selection()
+            print("New cover bonus: " + str(cover_bonus))
             for creature in creatures:
                 creature.set_cover_bonus(cover_bonus)
 

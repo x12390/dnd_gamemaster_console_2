@@ -101,7 +101,7 @@ def cover_selection():
     elif choice == 3:
         cover_category = "half"
     else:
-        cover_category = ""
+        cover_category = "none"
 
     return cover_bonus.cover_calculation(cover_category)
 

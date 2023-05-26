@@ -147,10 +147,8 @@ class Creature(Character):
 
         if self.is_attackable() == False:
             cover_text = "100%"
-        elif self.get_cover_bonus() > 0:
+        elif self.get_cover_bonus() >= 0:
             cover_text = str(self.cover_bonus)
-        else:
-            cover_text = "Deckung: keine"
 
         print(
             f"-------------------------------------------- \n"
