@@ -44,6 +44,7 @@ class Creature(Character):
         dice = None
         if dice_type != 0:
             dice = DiceFactory.create_dice(dice_type)
+            dice.disable_hp_dice_rules()
             if dice is not None:
                 dice.set_bonus(bonus)
                 self.close_damage_dice.append(dice)
@@ -67,6 +68,7 @@ class Creature(Character):
     def set_ranged_damage_dice(self, dice_type=0, bonus=0):
         dice = None
         dice = DiceFactory.create_dice(dice_type)
+        dice.disable_hp_dice_rules()
         if dice is not None:
             dice.set_bonus(bonus)
             self.ranged_damage_dice.append(dice)
@@ -91,35 +93,46 @@ class Creature(Character):
         ret = []
 
         #Anzahl der Damagewürfel entscheidet über Attacken!
-        for dice_dmg in dices_dmg:
-            if dices_tp[0] is not None and dices_tp[0].sides > 0:
+        dice_cnt = 0
+        for dice in dices_tp:
+            hitpoints = 0
+            damage = 0
+            dice_cnt += 1
+
+            if dice is not None and dice.sides > 0:
                 print(f"\n{self.race} '{self.name}': [hp,dmg]")
-                # Trefferpunkte
-                dice = dices_tp[0]
+                #Wuerfel Trefferpunkte
                 hitpoints = dice.roll()
-                if hitpoints > 1:
-                    hitpoints += self.cover_bonus #wg. Geschicklichkeit
-                ret.append(f"TP: {str(hitpoints)}")
 
                 if hitpoints > 1:
-                    # Schaden
-                    damage = 0
-                    if dice_dmg is not None:
-                        dice = dice_dmg
-                        damage = dice.roll()
-                    ret.append(f"DMG: {str(damage)}")
+                    #Trefferpunkt von mehr als 1 ist generell ein Treffer
+                    #Gamemaster muss pruefen, ob mit der Anzahl Trefferpunkte die RK des Gegners erreicht wurde.
+                    #Wenn ja, ist der Damage für den Gamemaster interessant, diesen teilt er dem Spieler mit.
+                    hitpoints += self.cover_bonus #Deckung steigert die Geschicklichkeit (bswp. Auflehnen beim Zielen)
+
+                    if dices_dmg is not None:
+                        dice_dmg = dices_dmg[dice_cnt-1]
+                        print(f"Dice {dice_cnt}: {dices_dmg[dice_cnt-1]} ")
+                        if dice_dmg is not None:
+                            damage = dice_dmg.roll()
+                        ret.append(f"TP: {str(hitpoints)}")
+                        ret.append(f"DMG: {str(damage)}")
+
+                        if hitpoints >= 20:
+                            #bei kritischem Treffer 2. Mal Schaden wuerfeln
+                            damage = dice_dmg.roll()
+                            ret.append(f"TP: {str(hitpoints)}")
+                            ret.append(f"DMG: {str(damage)}")
                 else:
+                    #Trefferpunkt von 1 ist verfehlt und macht keinen Schaden
                     print("Ups, verfehlt!")
-                    ret.append(0)
+                    ret.append(f"TP: {str(hitpoints)}")
+                    ret.append(f"DMG: {str(damage)}")
 
             else:
                 print(f"\n{self.race} '{self.name}' [no attack available]!")
 
-        if len(dices_dmg) < 1:
-            print(f"\n{self.race} '{self.name}': [hp,dmg]")
-            print(f"Kein Angriff verfuegbar!")
-            ret.append(f"TP: 0")
-            ret.append(f"DMG: 0")
+
         return ret
 
     def show_attributes(self):

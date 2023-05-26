@@ -1,9 +1,15 @@
 import random
 
 class Dice:
+    hp_dice = True
     """Klasse zur Erstellung von Wuerfelobjekten."""
     def __init__(self, sides=6, amount=1, bonus=0):
         self.set_dice(sides, amount, bonus)
+
+    def enable_hp_dice_rules(self):
+        self.hp_dice = True
+    def disable_hp_dice_rules(self):
+        self.hp_dice = False
 
     def set_dice(self, sides:int, amount:int, bonus=0):
         """
@@ -17,6 +23,7 @@ class Dice:
         self.amount = amount
         self.bonus = bonus
         self.type = f"{amount}W{sides}"
+        self.enable_hp_dice_rules()
 
     def get_type(self):
         """Rückgabe des Würfeltyps. Bspw 1W20."""
@@ -39,15 +46,20 @@ class Dice:
             cnt += 1
             roll = random.randint(1, self.sides)
             msg = msg + ", Wurf " + str(cnt) + " => " + str(roll)
-            if roll > 1:
-                roll += self.bonus
-                msg = msg + " + Bonus: " + str(self.bonus)
-            else:
-                roll = 0 #failed
+
+            if self.hp_dice == True:
+                if roll <= 1:
+                    msg = msg + "[MISSED]"
+                    roll = 0
+
             roll_results.append(roll)
 
         sum_result = sum(roll_results)
-        msg = msg + ", Gesamt: " + str(sum_result)
+        msg += f" = Summe: {sum_result}"
+        if sum_result > 0:
+            sum_result += self.bonus
+            msg += f" + Bonus: {self.bonus}"
+        msg = msg + " ==> Gesamt: " + str(sum_result)
         print(msg)
         return sum_result #sum of all dices
 
@@ -76,7 +88,11 @@ class Dice:
 
     def __str__(self):
         """String Representation eines Würfels. Bspw. '1W6'. """
-        return f"{self.amount}W{self.sides}+{self.bonus}"
+        hp_flag = ""
+        if self.hp_dice == True:
+            hp_flag = "HP "
+
+        return f"{hp_flag}{self.amount}W{self.sides}+{self.bonus}"
 
 
 class DiceFactory:
@@ -94,9 +110,11 @@ class DiceFactory:
         return dice
 
 
-dice = DiceFactory.create_dice("2W10")
+dice = DiceFactory.create_dice("1W10")
 print(f"{dice.amount} dice(s) with {dice.sides} sides.")
-
+dice.disable_hp_dice_rules()
+dice.set_bonus(100)
+dice.roll()
 # W20 = Dice(6,2)
 # print(W20.roll_attribute(5))
 # print(W20.roll_save(["dfs", "Panzerfrosch"], 3))

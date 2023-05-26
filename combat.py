@@ -113,4 +113,4 @@ def combat(group):
 
 
 
-#print(combat(["Ork", "Veteran", "Riesenspinne"]))
+#print(combat(["Aaskriecher"]))
