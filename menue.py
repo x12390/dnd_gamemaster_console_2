@@ -18,7 +18,7 @@ def cls():
    system('cls' if name=='nt' else 'clear')
 
 
-def select_menu(title, topics):
+def main_menu(title, topics):
     #standard Auswahlmenue mit Titel
     while True:
         cls()
@@ -32,12 +32,29 @@ def select_menu(title, topics):
 
         choice = input(f"Bitte wählen [1-{length}] or q: ")
         if choice == "q":
-            print("Programm wurde beendet.")
-            quit(0)
+           quit(0)
         elif choice.isnumeric():
             choice = int(choice)
             return choice
-            break
+
+def sub_menu(title, topics):
+    #standard Auswahlmenue mit Titel
+    while True:
+        cls()
+        cnt = 0
+        print(f"--- {title} ---")
+        length = len(topics)
+        for topic in topics:
+            cnt += 1
+            print(f"{cnt}. {topic}")
+
+
+        choice = input(f"Bitte wählen [1-{length}] or q: ")
+        if choice == "q":
+           return choice
+        elif choice.isnumeric():
+            choice = int(choice)
+            return choice
 
 def select_menu_creatures(title, creature_list):
     group =[]
@@ -54,7 +71,7 @@ def select_menu_creatures(title, creature_list):
         choice = input(f"Bitte wählen [1-{length}] or q: ")
         if choice == "q":
             return group
-            break
+
         elif choice.isnumeric() and int(choice) <= length:
             choice = int(choice)
             member = creature_list[choice-1]
@@ -81,7 +98,7 @@ def select_menu_creatureObject(title, creature_obj_list):
         choice = input(f"Bitte wählen [1-{length}] or q: ")
         if choice == "q":
             return None
-            break
+
         elif choice.isnumeric() and int(choice) <= length:
             choice = int(choice)
             member = creature_obj_list[choice-1]
@@ -92,7 +109,7 @@ def select_menu_creatureObject(title, creature_obj_list):
 
 def cover_selection():
     #Deckungsauswahl zur Bonusberechnung
-    choice = select_menu("Deckung", ["Volle Deckung", "3/4 Deckung", "1/2 Deckung", "keine"])
+    choice = sub_menu("Deckung", ["Volle Deckung", "3/4 Deckung", "1/2 Deckung", "keine"])
     cover_category = ""
     if choice == 1:
         cover_category = "full"

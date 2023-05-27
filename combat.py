@@ -1,6 +1,6 @@
 from creatures.creature_factory import CreatureFactory
 from dice import Dice
-from menue import cls, select_menu, cover_selection, select_menu_creatureObject
+from menue import cls, sub_menu, cover_selection, select_menu_creatureObject
 
 
 
@@ -54,7 +54,7 @@ def combat(group):
             return ep
             break
 
-        choice = select_menu("Gegneraktion im Kampf", ["Fernangriff", "Nahangriff", "Verteidigung", "Fliehen", "Deckung wechseln", "Gruppe anzeigen"])
+        choice = sub_menu("Gegneraktion im Kampf", ["Fernangriff", "Nahangriff", "Verteidigung", "Fliehen", "Deckung wechseln", "Gruppe anzeigen"])
         if choice == 1:
             # Fernangriff wuerfeln
             for creature in creatures:
@@ -107,8 +107,8 @@ def combat(group):
                         creature.show_attributes()
                 input("q für beenden: ")
                 break
-
-
+        elif choice == "q":
+            return choice
 
 
 

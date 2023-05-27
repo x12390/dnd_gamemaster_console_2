@@ -1,4 +1,4 @@
-from menue import select_menu as selection
+from menue import main_menu as selection
 from menue import select_menu_creatures
 from combat import combat
 from configparser import ConfigParser
@@ -30,7 +30,8 @@ def main():
 
         elif choice == 2:
             # Option Kampf
-            combat(enemies)
+            back = combat(enemies)
+
 
 
 
