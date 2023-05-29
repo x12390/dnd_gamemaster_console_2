@@ -1,7 +1,6 @@
 from creatures.creature import Creature
 from configparser import ConfigParser
 
-
 class CreatureFactory:
     @staticmethod
     def create_creature(creature_type: str, configfile='creatures.ini'):
@@ -13,7 +12,7 @@ class CreatureFactory:
             config.read(configfile)
 
             #check if category exist
-            if config.has_section(creature_type):
+            if config.has_section(creature_type): #e.g. [ork]
                 # create creature object
                 creature = Creature()
                 creature.set_race(creature_type)
@@ -28,6 +27,10 @@ class CreatureFactory:
                 creature.set_intelligence(int(config.get(creature_type, 'INT')))
                 creature.set_wisdom(int(config.get(creature_type, 'WEI')))
                 creature.set_charisma(int(config.get(creature_type, 'CHA')))
+                if config.has_option(creature_type, 'RESISTENCE'):
+                    creature.set_resistence(config.get(creature_type, 'RESISTENCE'))
+                if config.has_option(creature_type, 'IMMUNITY'):
+                    creature.set_immunity(config.get(creature_type, 'IMMUNITY'))
 
                 # close combat dice hitpoints
                 for x in range(1,3):
@@ -73,8 +76,8 @@ class CreatureFactory:
             return creature
 
 
-creatureObj = CreatureFactory.create_creature("Veteran", "../creatures.ini")
-print(creatureObj.get_race())
-print(creatureObj.get_ep())
-print(creatureObj.get_hitpoints())
-creatureObj.show_attributes()
+# creatureObj = CreatureFactory.create_creature("Ghul", "../creatures.ini")
+# print(creatureObj.get_race())
+# print(creatureObj.get_ep())
+# print(creatureObj.get_hitpoints())
+# creatureObj.show_attributes()

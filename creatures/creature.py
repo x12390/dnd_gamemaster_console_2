@@ -139,8 +139,6 @@ class Creature(Character):
         print(
             f"Würfel Treffer - Nah: {close_hp_dices} , Fern: {ranged_hp_dices}\n"
             f"Würfel Schaden - Nah: {close_dmg_dices} , Fern: {ranged_dmg_dices}\n"
-            f"Resistent gegen: {self.get_resistence()} \n"
-            f"Immun gegen: {self.get_immunity()} \n"
         )
 
     def set_resistence(self,arrValues):

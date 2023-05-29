@@ -118,6 +118,8 @@ class Character:
             f"INT: {self.intelligence} ({self.intelligence_mod}) \n"
             f"WEI: {self.wisdom} ({self.wisdom_mod}) \n"
             f"CHA: {self.charisma} ({self.charisma_mod}) \n"
+            f"Resistent gegen: {self.get_resistence()} \n"
+            f"Immun gegen: {self.get_immunity()} \n"
         )
 
     # Name des Charakters
@@ -361,14 +363,17 @@ class Character:
 
     def append_immunity(self, immunity):
         self.immunity.append(immunity)
+    def set_immunity(self, immunity):
+        self.immunity = immunity
     def get_immunity(self):
         return self.immunity
-
     def reset_immunity(self):
         self.immunity = []
 
     def append_resistence(self, resistence):
         self.resistence.append(resistence)
+    def set_resistence(self, resistence):
+        self.resistence = resistence
     def get_resistence(self):
         return self.resistence
     def reset_resistence(self):
