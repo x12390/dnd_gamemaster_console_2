@@ -3,20 +3,14 @@ from dice import DiceFactory
 
 #Creature allgemein
 class Creature(Character):
+    close_hitpoint_dice = []
+    close_damage_dice = []
+    ranged_hitpoint_dice = []
+    ranged_damage_dice = []
     def __init__(self, *args):
-        super().__init__(*args)
-        self.close_hitpoint_dice = []
-        self.close_damage_dice = []
-        self.ranged_hitpoint_dice = []
-        self.ranged_damage_dice = []
-        self.init_base_attributes()
-        self.set_close_hitpoint_dice()
-        self.set_ranged_hitpoint_dice()
-        self.set_resistence([])
-        self.set_immunity([])
-
-
-
+       super().__init__(*args)
+       self.set_close_hitpoint_dice()
+       self.set_ranged_hitpoint_dice()
     def set_close_hitpoint_dice(self, dice_type=0, bonus=0):
         dice = None
         if dice_type != 0:
@@ -24,8 +18,6 @@ class Creature(Character):
             if dice is not None:
                 dice.set_bonus(bonus)
                 self.close_hitpoint_dice.append(dice)
-
-
     def get_close_hitpoint_dice(self):
         return self.close_hitpoint_dice
 
@@ -119,9 +111,7 @@ class Creature(Character):
             else:
                 print(f"\n{self.race} '{self.name}' [no attack available]!")
 
-
         return ret
-
     def show_attributes(self):
         self.cls()
 

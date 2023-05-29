@@ -32,6 +32,8 @@ class Character:
     attackable = True
     ep = 0
     status = "aktiv"
+    resistence = []
+    immunity = []
     def __init__(self, *args):
         """
         Instanzierung kann mit optionalen Parametern erfolgen:
@@ -356,6 +358,21 @@ class Character:
 
     def get_description(self):
         return self.description
+
+    def append_immunity(self, immunity):
+        self.immunity.append(immunity)
+    def get_immunity(self):
+        return self.immunity
+
+    def reset_immunity(self):
+        self.immunity = []
+
+    def append_resistence(self, resistence):
+        self.resistence.append(resistence)
+    def get_resistence(self):
+        return self.resistence
+    def reset_resistence(self):
+        self.resistence = []
 
     def cls(self):
         system('cls' if name == 'nt' else 'clear')
