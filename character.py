@@ -7,6 +7,31 @@ import names
 
 class Character:
     """Klasse fuer allgemeine Charaktermerkmale."""
+    race = "Mensch"
+    name = names.get_first_name(gender="male")
+    description = None
+    size = "mittelgross"
+    size_mod = 0
+    strength = 0
+    strength_mod = 0
+    dexterity = 0
+    dexterity_mod = 0
+    constitution = 0
+    constitution_mod = 0
+    intelligence = 0
+    intelligence_mod = 0
+    wisdom = 0
+    wisdom_mod = 0
+    charisma = 0
+    charisma_mod = 0
+    rk = 10 #default, menschliche Haut
+    hitpoints = 0
+    initiative = -1
+    cover_bonus = 0  # Deckung 0: kein, 1: 1/2 = +2RK, 2: 3/4 = +5RK, 3: voll = Kein Angriff moeglich
+    cover_text = "0"
+    attackable = True
+    ep = 0
+    status = "aktiv"
     def __init__(self, *args):
         """
         Instanzierung kann mit optionalen Parametern erfolgen:
@@ -27,32 +52,6 @@ class Character:
         self.init_base_attributes(*args)
 
     def init_base_attributes(self, *args):
-        self.race = "Mensch"
-        self.name = names.get_first_name(gender="male")
-        self.size = "mittelgross"
-        self.size_mod = 0
-        self.strength = 0
-        self.strength_mod = 0
-        self.dexterity = 0
-        self.dexterity_mod = 0
-        self.constitution = 0
-        self.constitution_mod = 0
-        self.intelligence = 0
-        self.intelligence_mod = 0
-        self.wisdom = 0
-        self.wisdom_mod = 0
-        self.charisma = 0
-        self.charisma_mod = 0
-        self.rk = 10
-        self.hitpoints = 0
-        self.level = 1
-        self.training_bonus = 2
-        self.initiative = -1
-        self.cover_bonus = 0 #Deckung 0: kein, 1: 1/2 = +2RK, 2: 3/4 = +5RK, 3: voll = Kein Angriff moeglich
-        self.attackable = True
-        self.ep = 0
-        self.status = "aktiv"
-
         if len(args) == 1:
             self.name = args[0]
         elif len(args) == 2:
@@ -89,22 +88,34 @@ class Character:
             self.set_wisdom(args[5])
             self.set_charisma(args[6])
 
+    def set_attributes(self, array_attribute_values):
+        if len(array_attribute_values) == 6:
+            self.set_strength(array_attribute_values[0])
+            self.set_dexterity(array_attribute_values[1])
+            self.set_constitution(array_attribute_values[2])
+            self.set_intelligence(array_attribute_values[3])
+            self.set_wisdom(array_attribute_values[4])
+            self.set_charisma(array_attribute_values[5])
+        else:
+            print("Error, wrong amount of attributes in given array.")
+
+
     def show_attributes(self):
-        self.cls()
+
         print(
             f"-------------------------------------------- \n"
-            f"Klasse: {self.__class__.__name__} \n"
-            f"{self.race} << {self.name} >>, {self.size}, EP: {self.ep}  \n" 
-            f"-------------------------------------------- \n"          
-            f"Rüstungsklasse: {self.rk} inkl. Deckungsbonus: {self.cover_bonus} \n"
-            f"Trefferpunkte: {self.hitpoints} \n"           
-            f"STR: {self.strength} ({self.strength_mod}), "
-            f"GES: {self.dexterity} ({self.dexterity_mod}), "
-            f"KON: {self.constitution} ({self.constitution_mod}), "
-            f"INT: {self.intelligence} ({self.intelligence_mod}), "
-            f"WEI: {self.wisdom} ({self.wisdom_mod}), "
+            f"Klasse: {self.race} \n"
+            f"Name: << {self.name} >>, {self.get_size()} (mod: {self.get_size_modificator()}), EP: {self.ep}  \n"
+            f"{self.get_description()} \n"
+            f"-------------------------------------------- \n"
+            f"Rüstungsklasse: {self.get_rk()} inkl. Deckungsbonus: {self.cover_text} \n"
+            f"Trefferpunkte: {self.get_hitpoints()} \n"
+            f"STR: {self.strength} ({self.strength_mod}) \n"
+            f"GES: {self.dexterity} ({self.dexterity_mod}) \n"
+            f"KON: {self.constitution} ({self.constitution_mod}) \n"
+            f"INT: {self.intelligence} ({self.intelligence_mod}) \n"
+            f"WEI: {self.wisdom} ({self.wisdom_mod}) \n"
             f"CHA: {self.charisma} ({self.charisma_mod}) \n"
-            f"Lvl: {self.level} (Training bonus: {self.training_bonus})"
         )
 
     # Name des Charakters
@@ -294,6 +305,7 @@ class Character:
             self.attackable = True
         elif bonus == -1:
             self.attackable = False
+            self.cover_text = "100%"
             print(f"{self.race} {self.name} ist nicht angreifbar, hat volle Deckung!")
         else:
             self.attackable = True
@@ -326,6 +338,9 @@ class Character:
         else:
             print("Statuswert nicht unterstützt. Bitte einen der folgenden angeben: aktiv, ohnmacht oder tot")
 
+    def get_status(self, status):
+        """Rueckgabe des character status (aktiv, ohnmacht, tot)."""
+        return self.status
 
     def set_attackable(self, bool:bool):
         """Setzt den Wert für Angreifbarkeit.
@@ -335,6 +350,12 @@ class Character:
 
     def is_attackable(self):
         return self.attackable
+
+    def set_description(self, desc):
+        self.description = "Beschreibung: " + desc
+
+    def get_description(self):
+        return self.description
 
     def cls(self):
         system('cls' if name == 'nt' else 'clear')

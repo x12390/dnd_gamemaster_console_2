@@ -2,29 +2,21 @@ from character import Character
 
 #Spieler Charakter
 class Player(Character):
+    level = 1
+    training_bonus = 2
+    trained_saves = []
+
     def __init__(self, *args):
-        self.init_base_attributes(*args)
+        super().__init__(*args)
         self.set_hp_dice_sides(6)
-        # recalc rk after additonal attributes set
-        self.change_rk(self.dexterity_mod)
-        self.change_level(1)
 
     def show_attributes(self):
         self.cls()
+        super().show_attributes()
         print(
-            f"Klasse: {self.__class__.__name__} \n"
-            f"Name: {self.name} \n"
-            f"Größe: {self.size} \n"
-            f"Stärke: {self.strength}, mod: {self.strength_mod}\n"
-            f"Geschicklichkeit: {self.dexterity}, mod: {self.dexterity_mod} \n"
-            f"Konstitution: {self.constitution}, mod: {self.constitution_mod} \n"
-            f"Intelligenz: {self.intelligence}, mod: {self.intelligence_mod} \n"
-            f"Charisma: {self.charisma}, mod: {self.charisma_mod} \n"
-            f"Rüstungsklasse: {self.rk} \n"
             f"Level: {self.level} \n"
-            f"Trefferpunkte: {self.hitpoints} \n"
-            f"TP-Würfel: {self.hitpoint_dice_amount}W{self.hitpoint_dice_sides} \n"
-            f"Deckungsbonus: {self.cover_bonus} \n"
+            f"Trefferpunkte: {self.hitpoints} \n"                
+            f"Lvl: {self.level} (Training bonus: {self.training_bonus})"
             f"Geübte Rettungswürfe: {self.trained_saves} \n"
         )
 
@@ -70,28 +62,39 @@ class Player(Character):
         hp = hp + bonus_hitpoints
         self.hitpoints = hp
 
-class Magier(Character):
+    def set_ep(self, ep):
+        """Set expierience points the player gained."""
+        self.ep = ep
+    def get_ep(self):
+        """Returns gained expierience points."""
+        return self.ep
+
+class Magier(Player):
     def __init__(self, *args):
-        self.init_base_attributes(*args)
+        super().__init__(*args)
         self.set_hp_dice_sides(6)
 
 
-class Barde(Character):
+class Barde(Player):
     def __init__(self, *args):
-        self.init_base_attributes(*args)
+        super().__init__(*args)
         self.set_hp_dice_sides(8)
 
-class Kleriker(Character):
+class Kleriker(Player):
     def __init__(self, *args):
-        self.init_base_attributes(*args)
+        super().__init__(*args)
         self.set_hp_dice_sides(8)
 
-class Schurke(Character):
+class Schurke(Player):
     def __init__(self, *args):
-        self.init_base_attributes(*args)
+        super().__init__(*args)
         self.set_hp_dice_sides(8)
 
-class Kämpfer(Character):
+class Kämpfer(Player):
     def __init__(self, *args):
-        self.init_base_attributes(*args)
+        super().__init__(*args)
         self.set_hp_dice_sides(10)
+
+
+p1 = Magier("Kalle")
+p1.show_attributes()

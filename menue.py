@@ -109,16 +109,16 @@ def select_menu_creatureObject(title, creature_obj_list):
 
 def cover_selection():
     #Deckungsauswahl zur Bonusberechnung
-    choice = sub_menu("Deckung", ["Volle Deckung", "3/4 Deckung", "1/2 Deckung", "keine"])
+    choice = sub_menu("Deckung", ["keine", "1/2 Deckung", "3/4 Deckung", "Volle Deckung"])
     cover_category = ""
     if choice == 1:
-        cover_category = "full"
-    elif choice == 2:
-        cover_category = "big"
-    elif choice == 3:
-        cover_category = "half"
-    else:
         cover_category = "none"
+    elif choice == 2:
+        cover_category = "half"
+    elif choice == 3:
+        cover_category = "big"
+    else:
+        cover_category = "full"
 
     return cover_bonus.cover_calculation(cover_category)
 

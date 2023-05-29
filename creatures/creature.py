@@ -3,13 +3,12 @@ from dice import DiceFactory
 
 #Creature allgemein
 class Creature(Character):
-    def __init__(self):
-        self.test = []
+    def __init__(self, *args):
+        super().__init__(*args)
         self.close_hitpoint_dice = []
         self.close_damage_dice = []
         self.ranged_hitpoint_dice = []
         self.ranged_damage_dice = []
-        self.description = None
         self.init_base_attributes()
         self.set_close_hitpoint_dice()
         self.set_ranged_hitpoint_dice()
@@ -17,16 +16,6 @@ class Creature(Character):
         self.set_immunity([])
 
 
-    def set_attributes(self, array_attribute_values):
-        if len(array_attribute_values) == 6:
-            self.set_strength(array_attribute_values[0])
-            self.set_dexterity(array_attribute_values[1])
-            self.set_constitution(array_attribute_values[2])
-            self.set_intelligence(array_attribute_values[3])
-            self.set_wisdom(array_attribute_values[4])
-            self.set_charisma(array_attribute_values[5])
-        else:
-            print("Error, wrong amount of attributes in given array.")
 
     def set_close_hitpoint_dice(self, dice_type=0, bonus=0):
         dice = None
@@ -59,8 +48,6 @@ class Creature(Character):
             if dice is not None:
                 dice.set_bonus(bonus)
                 self.ranged_hitpoint_dice.append(dice)
-
-
 
     def get_ranged_hitpoint_dice(self):
         return self.ranged_hitpoint_dice
@@ -158,25 +145,8 @@ class Creature(Character):
         for d in self.get_ranged_damage_dice():
             ranged_dmg_dices += str(d) + " "
 
-        if self.is_attackable() == False:
-            cover_text = "100%"
-        elif self.get_cover_bonus() >= 0:
-            cover_text = str(self.cover_bonus)
-
+        super().show_attributes()
         print(
-            f"-------------------------------------------- \n"
-            f"Klasse: {self.race} \n"
-            f"Name: << {self.name} >>, {self.get_size()} (mod: {self.get_size_modificator()}), EP: {self.ep}  \n" 
-            f"{self.get_description()} \n"
-            f"-------------------------------------------- \n"          
-            f"Rüstungsklasse: {self.get_rk()} inkl. Deckungsbonus: {cover_text} \n"
-            f"Trefferpunkte: {self.get_hitpoints()} \n"           
-            f"STR: {self.strength} ({self.strength_mod}) \n"
-            f"GES: {self.dexterity} ({self.dexterity_mod}) \n"
-            f"KON: {self.constitution} ({self.constitution_mod}) \n"
-            f"INT: {self.intelligence} ({self.intelligence_mod}) \n"
-            f"WEI: {self.wisdom} ({self.wisdom_mod}) \n"
-            f"CHA: {self.charisma} ({self.charisma_mod}) \n"     
             f"Würfel Treffer - Nah: {close_hp_dices} , Fern: {ranged_hp_dices}\n"
             f"Würfel Schaden - Nah: {close_dmg_dices} , Fern: {ranged_dmg_dices}\n"
             f"Resistent gegen: {self.get_resistence()} \n"
@@ -195,11 +165,7 @@ class Creature(Character):
     def get_immunity(self):
         return self.immunity
 
-    def set_description(self, desc):
-        self.description = "Beschreibung: " + desc
 
-    def get_description(self):
-        return self.description
 
 
 

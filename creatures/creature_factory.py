@@ -73,8 +73,8 @@ class CreatureFactory:
             return creature
 
 
-#creatureObj = CreatureFactory.create_creature("Veteran", "../creatures.ini")
-# print(creatureObj.get_race())
-# print(creatureObj.get_ep())
-# print(creatureObj.get_hitpoints())
-#creatureObj.show_attributes()
+creatureObj = CreatureFactory.create_creature("Veteran", "../creatures.ini")
+print(creatureObj.get_race())
+print(creatureObj.get_ep())
+print(creatureObj.get_hitpoints())
+creatureObj.show_attributes()
